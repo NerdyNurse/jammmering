@@ -15,6 +15,20 @@ function App() {
     setUserInput(target.value)
   }
 
+  const [playList, setPlayList] = useState([])
+  const addTrackToPlaylist = (trackData) => {
+    if (playList.includes(trackData)){
+      alert('The selected track is already in your playlist')
+    }
+    else {
+    setPlayList([...playList, trackData])
+  }
+
+  }
+  const removeTrackFromPlaylist = (trackData) => {
+    setPlayList(playList.filter((track) => track !== trackData))
+  }
+
   return (
     
     <div>
@@ -25,11 +39,16 @@ function App() {
       <div className={styles.main}>
         <div className={styles.list}>
       
-      <SearchResults userInput={userInput}/>
+      <SearchResults 
+        userInput={userInput}
+        addTrackToPlaylist={addTrackToPlaylist}
+        playList={playList}/>
       
         </div>
         <div className={styles.list}>
-      <Playlist />
+      <Playlist 
+        playList={playList}
+        removeTrackFromPlaylist={removeTrackFromPlaylist} />
       
         </div>
       

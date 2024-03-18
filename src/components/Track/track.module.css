@@ -1,0 +1,16 @@
+.track{
+    border: solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.trackImg {
+    width: 15%;
+}
+
+.detailsContainer {
+    padding-right: 5px;
+
+}
