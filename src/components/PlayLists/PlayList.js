@@ -5,7 +5,8 @@ export default function Playlist(){
 
     return (
         <div>
-            <h2>Play list</h2>
+            <h2>Playlist</h2>
+            
             <Tracklist />
             <button>Save to Spotify</button>
         </div>
