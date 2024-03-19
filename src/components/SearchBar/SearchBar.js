@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function SearchBar({userInput, changeHandeler}) {
+export default function SearchBar({userInput, changeHandeler, searchClickHandler}) {
 
     return(
         <div>
@@ -9,7 +9,7 @@ export default function SearchBar({userInput, changeHandeler}) {
                 type='text' 
                 value={userInput} 
                 onChange={changeHandeler} />
-            <button>search</button>
+            <button onClick={searchClickHandler}>search</button>
         </div>
     )
 }
