@@ -6,7 +6,7 @@ import styles from './app.module.css'
 import Playlist from './components/PlayLists/PlayList';
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchResults from './components/SearchResults/SearchResults';
-import spotifyAuthorize from './supportscripts/spotifyauthentication';
+import  Spotify  from './supportscripts/spotifyauthentication';
 
 
 
@@ -35,27 +35,64 @@ function App() {
   const [searchResults, setSearchResults] = useState([])
   
    
+ const [displayToken, setDisplayToken] = useState('');
 
-
-  const searchClickHandler = () => {
+  const searchClickHandler = async () => {
     if (userInput.length < 5) {
       alert('add more characters to your search')
     }
-    /*else {
-      spotifyAuthorize()
+    else {
+      const token =Spotify.getAccessToken();
+      const basicEndPoint = 'https://api.spotify.com/v1/search?q=';
+      const searchType = 'type=track';
 
-      fetch(`https://api.spotify.com/v1/search?q=${userInput}&type=track%2Cartist%2Calbum`, {
-        method: 'GET', headers: 
-      {'Authorization': 'Bearer ' + token}}).then((response)=>console.log(response)).catch(error => console.log(error))
+      if (token) {
+        console.log(token)
+        const searchURL = basicEndPoint + userInput + '&' + searchType;
+
+        setDisplayToken(searchURL)
+
+        try {
+          const response = await fetch(searchURL, {
+            headers: {
+              Authorization: 'Bearer '+ token
+            }
+          });
+
+          if(response.ok) {
+
+          const data = await response.json();
+          console.log(data)
+
+          setSearchResults(data.tracks.items.map((item) => ({
+            trackName: item.name,
+            artist: item.artists.map(artist => artist.name).join(', '),
+            imgUrl: item.album.images.length > 0 ? item.album.images[0].url : null, 
+
+
+          })
+          ));
+
+          console.log(searchResults)
+          setUserInput('')
+
+      }} catch (error){
+        console.error('Error during search:', error);
+      }
+      }
+       else {
+        setDisplayToken('something is not working')
+      }
+    }
     
-  }*/
-}
+  }
+
     
   return (
     
     <div>
       <header className={styles.header}>Jammmering</header>
-      <button onClick={spotifyAuthorize}>Login to Spotify</button>
+  
       <SearchBar 
         userInput={userInput}
         changeHandeler={userInputChangeHandeler}
@@ -66,7 +103,8 @@ function App() {
       <SearchResults 
         userInput={userInput}
         addTrackToPlaylist={addTrackToPlaylist}
-        playList={playList}/>
+        playList={playList}
+        searchResults={searchResults}/>
       
         </div>
         <div className={styles.list}>
@@ -78,7 +116,7 @@ function App() {
       
       
       </div>
-      <footer>Footer goes here</footer>
+      <footer>{displayToken}</footer>
 
       
     </div>

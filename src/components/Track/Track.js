@@ -4,7 +4,7 @@ import styles from './track.module.css'
 
 
 
-export default function Track({trackData}){
+export default function Track({trackdata}){
 
     return(
 
@@ -13,11 +13,11 @@ export default function Track({trackData}){
             <img 
             alt='cover'
             className={styles.trackImg}
-            url={trackData.imgUrl}/>
+            src={trackdata.imgUrl}/>
             </div>
             <div className={styles.detailsContainer}>
-                <p>{trackData.trackName}</p>
-                <p>by: {trackData.artist}</p>
+                <p>{trackdata.trackName}</p>
+                <p>by: {trackdata.artist}</p>
             </div>
             
         </div>

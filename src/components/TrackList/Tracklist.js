@@ -12,12 +12,13 @@ export default function Tracklist({renderList, onClickHandler, addremove}){
 
     if (renderList && renderList.length){
 
-    for (let track of renderList) {
+    for (let index = 0; index < renderList.length; index++) {
+        const track = renderList[index];
         tracks.push
-            (<div className={styles.listItem}>
-                <Track trackData={track}/>
+            (<div className={styles.listItem} key={index}>
+                <Track trackdata={track}/>
                 <button className={styles.addRemove}
-                trackData={track}
+                trackdata={track}
                 onClick={() => onClickHandler(track)}
 
                 >{addremove}</button>
@@ -29,7 +30,6 @@ export default function Tracklist({renderList, onClickHandler, addremove}){
 
     return(
         <div>
-            <h5>Track list</h5>
             {tracks}
         </div>
     )

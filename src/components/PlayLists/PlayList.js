@@ -5,12 +5,14 @@ export default function Playlist({playList, removeTrackFromPlaylist}){
 
     return (
         <div>
-            <h2>Playlist</h2>
-            
-            <Tracklist 
-                renderList={playList} 
-                onClickHandler={removeTrackFromPlaylist}
-                addremove='-'/>
+            <h2>New Playlist</h2>
+            {playList.length > 0 ? 
+                <Tracklist 
+                    renderList={playList} 
+                    onClickHandler={removeTrackFromPlaylist}
+                    addremove='-'/>
+                     :
+                <p>select songs from the search results to start making your playlist</p>}
             <button>Save to Spotify</button>
         </div>
     )
