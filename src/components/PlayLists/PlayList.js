@@ -9,7 +9,8 @@ export default function Playlist({playList, removeTrackFromPlaylist}){
             
             <Tracklist 
                 renderList={playList} 
-                addremove={removeTrackFromPlaylist}/>
+                onClickHandler={removeTrackFromPlaylist}
+                addremove='-'/>
             <button>Save to Spotify</button>
         </div>
     )

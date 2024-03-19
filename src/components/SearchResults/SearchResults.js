@@ -10,7 +10,10 @@ export default function SearchResults({userInput, addTrackToPlaylist, playList})
         <div>
             <h2>Search results</h2>
             <p>searching for: {userInput}</p>
-            <Tracklist renderList={searchResults} addremove={addTrackToPlaylist}/>
+            <Tracklist 
+                renderList={searchResults} 
+                onClickHandler={addTrackToPlaylist}
+                addremove='+'/>
             
         </div>
     )

@@ -5,7 +5,7 @@ import Track from '../Track/Track'
 
 
 
-export default function Tracklist({renderList, addremove}){
+export default function Tracklist({renderList, onClickHandler, addremove}){
 
 
     const tracks = []
@@ -18,9 +18,9 @@ export default function Tracklist({renderList, addremove}){
                 <Track trackData={track}/>
                 <button className={styles.addRemove}
                 trackData={track}
-                onClick={() => addremove(track)}
+                onClick={() => onClickHandler(track)}
 
-                >+/-</button>
+                >{addremove}</button>
             </div>
             )
     }
