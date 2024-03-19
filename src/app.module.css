@@ -1,0 +1,23 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-content: flex-end;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.list {
+    border: solid red 1px;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.list h2{
+    text-align: center;
+}
+
+.header {
+    font-size:10vw;
+    text-align: center;
+}
