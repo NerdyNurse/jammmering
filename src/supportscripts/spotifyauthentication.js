@@ -1,10 +1,10 @@
 const spotifyAuthorize = () => {
 
 const client_id = 'f6ad3f87cbd0423c9e98af833f01a2d5'
-const apiKey = '56c6149d26df4c13ace3488d991ac6f0'
 
 
-var redirect_uri = encodeURIComponent('http://localhost:3000/callback');
+
+var redirect_uri = encodeURIComponent('httpshttp://localhost:3000/callback');
 
 function generateRandomString(length) {
     var result = '';
