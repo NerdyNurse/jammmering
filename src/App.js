@@ -6,7 +6,7 @@ import styles from './app.module.css'
 import Playlist from './components/PlayLists/PlayList';
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchResults from './components/SearchResults/SearchResults';
-import  Spotify  from './supportscripts/spotifyauthentication';
+import  Spotify  from './supportscripts/spotify';
 
 
 
@@ -18,7 +18,10 @@ function App() {
   
   }
 
+  const [playListName, setPlayListName] = useState('My Jammmering Playlist')
+
   const [playList, setPlayList] = useState([])
+
   const addTrackToPlaylist = (trackData) => {
     if (playList.includes(trackData)){
       alert('The selected track is already in your playlist')
@@ -33,57 +36,35 @@ function App() {
   }
 
   const [searchResults, setSearchResults] = useState([])
+  const [searchingFor, setSearchingFor] = useState('')
   
    
  const [displayToken, setDisplayToken] = useState('');
+ const [costomName, setCostomName] = useState('');
+
+  const renamePlayList = () => {
+    if(costomName){
+      setPlayListName(costomName)
+      setCostomName('')}
+  }
+
+  const renameChangeHandler = ({target}) => {
+    setCostomName(target.value)
+  }
 
   const searchClickHandler = async () => {
-    if (userInput.length < 5) {
+    /*if (userInput.length < 5) {
       alert('add more characters to your search')
     }
-    else {
-      const token =Spotify.getAccessToken();
-      const basicEndPoint = 'https://api.spotify.com/v1/search?q=';
-      const searchType = 'type=track';
+    else { */
+    const results = await Spotify.searchByUserInput(userInput);
 
-      if (token) {
-        console.log(token)
-        const searchURL = basicEndPoint + userInput + '&' + searchType;
-
-        setDisplayToken(searchURL)
-
-        try {
-          const response = await fetch(searchURL, {
-            headers: {
-              Authorization: 'Bearer '+ token
-            }
-          });
-
-          if(response.ok) {
-
-          const data = await response.json();
-          console.log(data)
-
-          setSearchResults(data.tracks.items.map((item) => ({
-            trackName: item.name,
-            artist: item.artists.map(artist => artist.name).join(', '),
-            imgUrl: item.album.images.length > 0 ? item.album.images[0].url : null, 
-
-
-          })
-          ));
-
-          console.log(searchResults)
-          setUserInput('')
-
-      }} catch (error){
-        console.error('Error during search:', error);
-      }
-      }
-       else {
-        setDisplayToken('something is not working')
-      }
-    }
+    setSearchResults(results);
+    console.log(`SearchResults:`, results);
+    setSearchingFor(userInput);
+    setUserInput('');
+       
+    
     
   }
 
@@ -101,7 +82,7 @@ function App() {
         <div className={styles.list}>
       
       <SearchResults 
-        userInput={userInput}
+        userInput={searchingFor}
         addTrackToPlaylist={addTrackToPlaylist}
         playList={playList}
         searchResults={searchResults}/>
@@ -109,8 +90,13 @@ function App() {
         </div>
         <div className={styles.list}>
       <Playlist 
+        playListName={playListName}
         playList={playList}
-        removeTrackFromPlaylist={removeTrackFromPlaylist} />
+        removeTrackFromPlaylist={removeTrackFromPlaylist}
+        costomName={costomName}
+        renameChangeHandler={renameChangeHandler}
+        renamePlayList={renamePlayList}
+         />
       
         </div>
       

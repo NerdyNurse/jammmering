@@ -17,6 +17,7 @@ const Spotify = {
     }
 
     var state = generateRandomString(16);
+    console.log(`state: ${state}`)
 
     localStorage.setItem(this.stateKey, state);
     var scope = 'user-read-private user-read-email';
@@ -64,30 +65,42 @@ const Spotify = {
         }
     },
 
-    async request(url, options = {}) {
-        if (!this.accessToken) {
-        this.accessToken = this.getAccessToken(); // Ensure access token exists
-        }
-        
-        try {
-        const response = await fetch(url, {
-            ...options,
-            headers: {
-            Authorization: `Bearer ${this.accessToken}`,
-            ...options.headers
-            }
-        });
+    async searchByUserInput(userInput) {
+        const token =Spotify.getAccessToken();
+        const basicEndPoint = 'https://api.spotify.com/v1/search?q=';
+        const searchType = 'type=track';
 
-        if (response.ok) {
-            const jsonResponse = await response.json();
-            return jsonResponse;
-        }
+        if (token) {
         
-        throw new Error('Request failed!');
-        } catch (error) {
-        console.error(error);
+            const searchURL = basicEndPoint + userInput + '&' + searchType;       
+
+            try {
+                const response = await fetch(searchURL, {
+                    headers: {
+                    Authorization: 'Bearer '+ token
+                    }
+                });
+
+                if(response.ok) {
+
+                const data = await response.json();
+                console.log(data)
+
+                const trackData = data.tracks.items.map((item) => ({
+                    trackName: item.name,
+                    artist: item.artists.map(artist => artist.name).join(', '),
+                    imgUrl: item.album.images.length > 0 ? item.album.images[0].url : null,
+                    uri: item.uri,
+                }));
+                
+                return trackData
+            }
+            } catch (error){
+                console.error('Error during search:', error);
+                };
         }
-    }
+    
+}
 
 
 };

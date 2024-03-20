@@ -1,11 +1,15 @@
 import React from 'react'
 import Tracklist from '../TrackList/Tracklist'
 
-export default function Playlist({playList, removeTrackFromPlaylist}){
+export default function Playlist({playList, removeTrackFromPlaylist, playListName, renamePlayList, renameChangeHandler, costomName}){
 
     return (
         <div>
-            <h2>New Playlist</h2>
+            <h2>{playListName}</h2>
+            <input type='text' value={costomName} onChange={renameChangeHandler} />
+            <button
+            onClick= {renamePlayList}
+            >rename</button>
             {playList.length > 0 ? 
                 <Tracklist 
                     renderList={playList} 
